@@ -1,0 +1,20 @@
+
+.nav-links a.active,
+.nav-links a:hover{
+  background: #1e40af;
+  color: #ffffff;
+}
+
+@media (min-width: 768px){
+    .nav-links a{
+      color: #ffffff;
+    }
+    .nav-links a.active{
+        background: #ffffff;
+        color: #1e40af;
+      }
+      .nav-links a:hover{
+        background: #ffffff;
+        color: #1e40af;
+      }
+}
