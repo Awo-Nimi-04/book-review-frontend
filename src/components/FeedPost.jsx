@@ -2,20 +2,20 @@ import { Link } from "react-router-dom";
 import Button from "./Button";
 import { useContext } from "react";
 import { PageContext } from "../context/Context";
+import unitedImg from "../assets/images/united.png"
 
-const FeedPost = ({ id, creatorID, bookTitle, review, img, likes }) => {
+const FeedPost = ({ id, creatorID, bookTitle, review, likes }) => {
   const { isAuthUser } = useContext(PageContext);
   return (
-    <li className="m-4">
+    <li className="m-4 w-[70%] ml-auto mr-auto">
       <div className="bg-white shadow-xl rounded-full w-full p-4 flex space-x-4 items-center">
         <img
-          className="rounded-full object-fill border-2 border-purple-500 bg-white w-20 h-20 p-1"
-          src="https://e7.pngegg.com/pngimages/136/22/png-clipart-user-profile-computer-icons-girl-customer-avatar-angle-heroes-thumbnail.png"
+          className="rounded-full object-cover border-2 border-purple-500 bg-white w-20 h-20"
+          src={creatorID.image || unitedImg}
           alt="profile picture"
         />
         <div className="w-full flex justify-between items-center">
           <div className="w-full">
-            {console.log(isAuthUser)}
             <Link to={isAuthUser ? `/${creatorID.id}/books` : "/auth"}>
               <h1 className="text-xl text-purple-500 font-bold">
                 {creatorID.firstName} {creatorID.lastName.slice(0, 1)}
@@ -115,34 +115,3 @@ const FeedPost = ({ id, creatorID, bookTitle, review, img, likes }) => {
 };
 
 export default FeedPost;
-
-
-        //   <Link
-        //     to={`/book/${id}`}
-        //     className={
-        //       "p-1 text-center rounded-lg mx-auto font-sunshine bg-fuchsia-500 shadow-xl hover:bg-fuchsia-800 text-md md:w-20 md:text-2xl text-white"
-        //     }
-        //   >
-// const UserCard = ({ uid, name, books, img, lastN }) => {
-//   const { isAuthUser } = useContext(PageContext);
-//   return (
-//     <li className="p-3 user-card">
-//       <Link
-//         to={isAuthUser ? `/${uid}/books` : "/auth"}
-//         className="flex bg-white p-2 rounded-lg w-60 items-center border-2 border-transparent justify-start space-x-7 shadow-xl transition ease-in-out delay-150 hover:bg-lime-200 hover:border-2 hover:-translate-y-1 hover:scale-110 hover:ring-4 hover:ring-purple-600"
-//       >
-
-//         <div>
-//           <p className="font-sparky text-lg text-purple-500">
-//             {name} {lastN.slice(0, 1)}
-//           </p>
-//           <p className="font-sak text-[11px] text-purple-700">
-//             {books.length === 1
-//               ? `${books.length} book`
-//               : `${books.length} books`}
-//           </p>
-//         </div>
-//       </Link>
-//     </li>
-//   );
-// };

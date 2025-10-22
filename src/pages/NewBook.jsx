@@ -102,7 +102,6 @@ const NewBook = () => {
             {BOOK_GENRE.map((genre, key) => (
               <option key={key}>{genre}</option>
             ))}
-            <option>Other</option>
           </Input>
           <span className="my-3" />
           <Input

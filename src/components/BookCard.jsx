@@ -79,7 +79,7 @@ const BookCard = ({ id, title, author, ISBN, onDelete, creator, likes, isLikedBy
         message={"Are you sure you want to delete this?"}
         footer={"CancelConfirm"}
       />
-      <div className="bg-white flex flex-col items-center rounded-lg shadow-2xl w-[50%] mr-auto ml-auto pt-4 mb-8">
+      <div className="bg-white flex flex-col items-center rounded-lg shadow-2xl mr-auto ml-auto pt-4 mb-8">
         {isLoading && <LoadingSpinner asOverlay />}
         <header className="font-sparky text-center text-xl p-1 mt-2">
           {title}

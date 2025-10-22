@@ -5,12 +5,15 @@ import { useHttpClient } from "../utilities/customHooks/httpHook";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorModal from "../components/ErrorModal";
 import { PageContext } from "../context/Context";
-import Button from "../components/Button";
+import ProfilePictureUpload from "../components/ProfilePictureUpload";
+import unitedImg from "../assets/images/united.png";
 
 const UserBooks = () => {
   const { userId, isAuthUser, token } = useContext(PageContext);
-  const navigate = useNavigate();
   const [userBooks, setUserBooks] = useState();
+  const [fullname, setFullname] = useState();
+  const [username, setUsername] = useState();
+  const [userProfilePic, setUserProfilePic] = useState();
   const [flag, setFlag] = useState(true);
   const { sendRequest, clearError, error, isLoading } = useHttpClient();
   const { uid } = useParams();
@@ -27,6 +30,9 @@ const UserBooks = () => {
           { Authorization: `Bearer ${token}` }
         );
         setUserBooks(data.books);
+        setUserProfilePic(data.user.image);
+        setFullname(`${data.user.firstName} ${data.user.lastName}`);
+        setUsername(data.user.username);
       } catch (err) {
         console.error(err.message);
       }
@@ -34,17 +40,27 @@ const UserBooks = () => {
     getUserBooks();
   }, [sendRequest, uid, flag, token]);
 
-  const handleDeletePlace = () => {
+  const handleDeleteBook = () => {
     setFlag((prevState) => !prevState);
   };
 
   return (
-    <div>
+    <div className="flex">
+      <div className="w-[35%] p-4">
+        <div className="m-8 rounded-lg p-4 bg-white">
+          <ProfilePictureUpload
+            fullname={fullname}
+            username={username}
+            initialPhotoUrl={userProfilePic || unitedImg}
+            isProfileOwner={uid === userId}
+          />
+        </div>
+      </div>
       {isAuthUser && userBooks && userBooks.length > 0 && (
-        <>
+        <div className="w-[65%]">
           <ErrorModal error={error} onClear={clearError} />
           {isLoading && <LoadingSpinner asOverlay />}
-          <div className="mt-8 p-4">
+          <div className="w-[80%] ml-auto mr-auto mt-8 p-4">
             {userBooks.map((book) => {
               return (
                 <BookCard
@@ -53,7 +69,7 @@ const UserBooks = () => {
                   author={book.author}
                   title={book.title}
                   ISBN={book.ISBN}
-                  onDelete={handleDeletePlace}
+                  onDelete={handleDeleteBook}
                   creator={book.creatorID}
                   likes={book.likes.length}
                   isLikedByCurrentUser={book.likedByUser}
@@ -61,7 +77,7 @@ const UserBooks = () => {
               );
             })}
           </div>
-        </>
+        </div>
       )}
       {isAuthUser && userBooks && userBooks.length === 0 && (
         <>

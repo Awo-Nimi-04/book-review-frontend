@@ -41,7 +41,8 @@ export const BOOKS_INFO = [
       "https://www.designforwriters.com/wp-content/uploads/2017/10/design-for-writers-book-cover-tf-2-a-million-to-one.jpg",
     title: "How to Make Money Like Odumudoblvck",
     author: "Jake Badmus",
-    review: "Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text ",
+    review:
+      "Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text Temporary Text ",
     genre: "Thriller",
     creatorID: 6,
   },
@@ -104,6 +105,7 @@ export const BOOK_GENRE = [
   "Self-Help",
   "History",
   "Philosophy",
+  "Other",
 ];
 
 BOOK_GENRE.sort();

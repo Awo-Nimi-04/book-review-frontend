@@ -16,7 +16,7 @@ const options = {
   6: unitedImg,
 };
 
-const UserCard = ({ uid, name, books, img, lastN }) => {
+const UserCard = ({ uid, username, books, img }) => {
   const { isAuthUser } = useContext(PageContext);
   return (
     <li className="p-3 user-card">
@@ -26,18 +26,12 @@ const UserCard = ({ uid, name, books, img, lastN }) => {
       >
         <img
           className="rounded-full object-fill border-2 border-purple-500 bg-white w-20 h-20 p-1"
-          src={
-            img
-              ? options[img]
-              : "https://e7.pngegg.com/pngimages/136/22/png-clipart-user-profile-computer-icons-girl-customer-avatar-angle-heroes-thumbnail.png"
-          }
+          src={img || options[6]}
           alt=""
         />
 
         <div>
-          <p className="font-sparky text-lg text-purple-500">
-            {name} {lastN.slice(0, 1)}
-          </p>
+          <p className="font-sparky text-lg text-purple-500">{username}</p>
           <p className="font-sak text-[11px] text-purple-700">
             {books.length === 1
               ? `${books.length} book`
