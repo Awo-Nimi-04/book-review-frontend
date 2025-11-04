@@ -24,7 +24,7 @@ function App() {
         { path: "/edit-book/:bookId", element: <EditBook /> },
         { path: "/new-book", element: <NewBook /> },
         { path: "/book/:bookId", element: <ViewBook /> },
-        { path: "/chat", element: <Chat /> },
+        { path: "/chat/:uid", element: <Chat /> },
       ],
     },
     ,

@@ -49,6 +49,7 @@ const UserBooks = () => {
       <div className="w-[35%] p-4">
         <div className="m-8 rounded-lg p-4 bg-white">
           <ProfilePictureUpload
+            uid={uid}
             fullname={fullname}
             username={username}
             initialPhotoUrl={userProfilePic || unitedImg}

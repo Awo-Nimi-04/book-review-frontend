@@ -4,10 +4,12 @@ import { PageContext } from "../context/Context";
 import ChatListCard from "../components/ChatListCard";
 import { useHttpClient } from "../utilities/customHooks/httpHook";
 import { formatMessageTime } from "../utilities/TimeFormatter";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
   const { username, token, userId } = useContext(PageContext);
   const { sendRequest } = useHttpClient();
+  const { uid } = useParams();
 
   const [currentOtherUser, setCurrentOtherUser] = useState();
   const [chatList, setChatList] = useState([]);
@@ -38,6 +40,13 @@ const Chat = () => {
     if (!token) return;
     getChatList();
   }, [token]);
+
+  useEffect(() => {
+    if (uid) {
+      setCurrentOtherUser(uid);
+      handleSelectChatListCard(uid);
+    }
+  }, [uid]);
 
   const sendMessage = () => {
     const socket = getSocket();
@@ -90,7 +99,7 @@ const Chat = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="p-4 w-[20%] bg-white flex flex-col">
+      <div className="w-[20%] bg-white flex flex-col">
         {chatList.map((chat) => {
           return (
             <ChatListCard
@@ -98,36 +107,40 @@ const Chat = () => {
               username={`${chat.firstName} ${chat.lastName.slice(0, 1)}`}
               lastMessage={chat.lastMessage}
               timestamp={formatMessageTime(chat.lastMessageTime)}
+              profileImg={chat.image}
               unReadCount={chat.unreadCount}
               onClick={() => {
                 handleSelectChatListCard(chat.otherUserId);
               }}
+              isSelected={currentOtherUser === chat.otherUserId}
             />
           );
         })}
       </div>
       {!currentOtherUser && (
-        <div>
-          <h1>Hello, {username}</h1>
-          <p></p>
+        <div className="w-full flex flex-col items-center justify-center text-4xl">
+          <h1 className="text-center text-white">Hello, {username}</h1>
+          <p className="text-center text-white">This is your chat hub</p>
         </div>
       )}
       {currentOtherUser && (
         <div className="w-[70%] p-4">
-          <div className="border p-2 h-64 overflow-y-auto mb-2">
-            {console.log(userId)}
-            {console.log(messages)}
+          <div className="border rounded-md p-2 h-64 overflow-y-auto mb-2">
             {messages.map((m, i) => {
               if (m.senderID === userId) {
                 return (
-                  <div key={i} className="mb-1 text-right">
-                    Me: {m.text}
+                  <div key={i} className="flex justify-end mb-2">
+                    <div className="inline-block bg-sky-200 text-right p-2 rounded-xl max-w-[60%] break-words">
+                      {m.text}
+                    </div>
                   </div>
                 );
               } else {
                 return (
-                  <div key={i} className="mb-1 text-left">
-                    Other: {m.text}
+                  <div key={i} className="flex justify-start mb-2">
+                    <div className="inline-block bg-indigo-500 text-left text-white p-2 rounded-xl max-w-[60%] break-words">
+                      {m.text}
+                    </div>
                   </div>
                 );
               }
