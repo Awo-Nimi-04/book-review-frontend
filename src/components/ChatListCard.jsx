@@ -25,7 +25,9 @@ const ChatListCard = ({
         <p>{username}</p>
         <p className="text-sm text-stone-500">{lastMessage}</p>
         <p className="text-xs">{timestamp}</p>
-        <p className="text-xs">You have {unReadCount} unread messages(s)</p>
+        <p className="text-xs">
+          {unReadCount > 0 ? `${unReadCount} new message(s)` : ""}
+        </p>
       </div>
     </button>
   );

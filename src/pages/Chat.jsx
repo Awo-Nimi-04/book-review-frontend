@@ -42,11 +42,19 @@ const Chat = () => {
   }, [token]);
 
   useEffect(() => {
-    if (uid) {
-      setCurrentOtherUser(uid);
-      handleSelectChatListCard(uid);
-    }
-  }, [uid]);
+    const loadChat = async () => {
+      if (!token) return;
+
+      await getChatList();
+
+      if (uid) {
+        handleSelectChatListCard(uid);
+        setCurrentOtherUser(uid);
+      }
+    };
+
+    loadChat();
+  }, [uid, token]);
 
   const sendMessage = () => {
     const socket = getSocket();
@@ -61,7 +69,6 @@ const Chat = () => {
   };
 
   const getChatList = async () => {
-    console.log(token);
     try {
       const data = await sendRequest(
         "http://localhost:8000/api/messages/chats",
@@ -92,6 +99,7 @@ const Chat = () => {
         }
       );
       setMessages(data.messages);
+      getChatList();
     } catch (err) {
       console.error(err.message);
     }
@@ -129,17 +137,28 @@ const Chat = () => {
             {messages.map((m, i) => {
               if (m.senderID === userId) {
                 return (
-                  <div key={i} className="flex justify-end mb-2">
-                    <div className="inline-block bg-sky-200 text-right p-2 rounded-xl max-w-[60%] break-words">
-                      {m.text}
+                  <div key={i} className="mb-2">
+                    <div className="flex justify-end">
+                      <div className="inline-block bg-sky-200 text-right p-2 rounded-xl max-w-[60%] break-words">
+                        {m.text}
+                        <p className="text-xs">
+                          {formatMessageTime(m.createdAt)}
+                        </p>
+                      </div>
                     </div>
+                    <p className="text-right text-sm">{m.read ? "Seen" : ""}</p>
                   </div>
                 );
               } else {
                 return (
-                  <div key={i} className="flex justify-start mb-2">
-                    <div className="inline-block bg-indigo-500 text-left text-white p-2 rounded-xl max-w-[60%] break-words">
-                      {m.text}
+                  <div key={i} className="mb-2">
+                    <div className="flex justify-start ">
+                      <div className="inline-block bg-indigo-500 text-left text-white p-2 rounded-xl max-w-[60%] break-words">
+                        {m.text}
+                        <p className="text-xs text-stone-200">
+                          {formatMessageTime(m.createdAt)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 );
